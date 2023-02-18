@@ -14,7 +14,10 @@ RUN add-apt-repository -y ppa:ondrej/php &&\
     curl -sSL https://packages.microsoft.com/config/ubuntu/20.04/prod.list | tee /etc/apt/sources.list.d/microsoft-prod.list &&\
     curl -sSL https://packages.microsoft.com/keys/microsoft.asc |  apt-key add - &&\
     apt-get update && \
-    ACCEPT_EULA=Y apt-get install -y msodbcsql17 mssql-tools unixodbc-dev &&\
+    ACCEPT_EULA=Y apt-get install -y msodbcsql17 mssql-tools && \
+    echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc && \
+    export PATH="$PATH:/opt/mssql-tools/bin" && \
+    apt-get install --allow-downgrades -y unixodbc-dev=2.3.7   unixodbc=2.3.7 odbcinst1debian2=2.3.7 odbcinst=2.3.7&& \
     pecl install sqlsrv && \
     pecl install pdo_sqlsrv && \
     echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc && \
