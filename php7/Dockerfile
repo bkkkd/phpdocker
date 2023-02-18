@@ -1,16 +1,11 @@
-FROM ubuntu:focal
+FROM registry.cn-hangzhou.aliyuncs.com/bkkkd/docker-base:focal
 
-ENV HOME /root
-ENV DEBIAN_FRONTEND noninteractive
-ENV LC_ALL C.UTF-8
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US.UTF-8
 
-RUN dpkg --add-architecture i386 && \
-    apt-get update && \
-    apt-get install -y software-properties-common libzbar-dev zbar-tools imagemagick &&\
-    add-apt-repository -y ppa:ondrej/php &&\
-    apt-get -y install wget tar supervisor net-tools php7.4-bcmath php7.4-bz2 php7.4-cli php7.4-common php7.4-curl php7.4-fpm php7.4-gd php7.4-mbstring php7.4-mysql  php7.4-sqlite3 php7.4-zip php7.4-xml php7.4-opcache php7.4-dev php7.4-imagick php7.4-swoole php7.4-redis nginx vim gnupg2 curl git cron p7zip-full zip&& \
+RUN add-apt-repository -y ppa:ondrej/php &&\
+    apt-get -y install php7.4-bcmath php7.4-bz2 php7.4-cli \
+        php7.4-common php7.4-curl php7.4-fpm php7.4-gd php7.4-mbstring \
+        php7.4-mysql  php7.4-sqlite3 php7.4-zip php7.4-xml php7.4-opcache \
+        php7.4-dev php7.4-imagick php7.4-swoole php7.4-redis nginx&& \
     /usr/bin/ln -sf /usr/sbin/php-fpm7.4 /usr/sbin/php-fpm  && \
     php -r "copy('https://install.phpcomposer.com/installer', 'composer-setup.php');" && \
     php composer-setup.php && \

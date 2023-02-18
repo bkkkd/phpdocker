@@ -1,16 +1,9 @@
-FROM ubuntu:focal
+FROM registry.cn-hangzhou.aliyuncs.com/bkkkd/docker-base:focal
 
-ENV HOME /root
-ENV DEBIAN_FRONTEND noninteractive
-ENV LC_ALL C.UTF-8
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US.UTF-8
-
-RUN dpkg --add-architecture i386 && \
-    apt-get update && \
-    apt-get install -y software-properties-common libzbar-dev zbar-tools imagemagick &&\
-    add-apt-repository -y ppa:ondrej/php &&\
-    apt-get -y install wget tar supervisor net-tools php5.6-bcmath php5.6-bz2 php5.6-cli php5.6-common php5.6-curl php5.6-fpm php5.6-gd php5.6-mbstring php5.6-mysql  php5.6-sqlite3 php5.6-zip php5.6-xml php5.6-opcache php5.6-dev php5.6-imagick  php5.6-redis nginx vim gnupg2 curl git cron p7zip-full zip&& \
+RUN add-apt-repository -y ppa:ondrej/php &&\
+    apt-get -y install php5.6-bcmath php5.6-bz2 php5.6-cli php5.6-common php5.6-curl \
+        php5.6-fpm php5.6-gd php5.6-mbstring php5.6-mysql  php5.6-sqlite3 php5.6-zip \
+        php5.6-xml php5.6-opcache php5.6-dev php5.6-imagick  php5.6-redis nginx && \
     /usr/bin/ln -sf /usr/sbin/php-fpm5.6 /usr/sbin/php-fpm  && \
     php -r "copy('https://install.phpcomposer.com/installer', 'composer-setup.php');" && \
     php composer-setup.php && \

@@ -1,8 +1,8 @@
 build:
-	docker build -t docker-php .
+	docker build -t phpdocker:php7 .
 
 run: build
-	docker run --rm -p 18080:80 docker-php
+	docker run --rm -p 18080:80 phpdocker:php7
 
 shell: build
-	docker run --rm -ti -p 18080:80 docker-php bash
+	docker run --rm -ti -p 18080:80 phpdocker:php7 bash
