@@ -23,7 +23,7 @@ RUN add-apt-repository -y ppa:ondrej/php &&\
     sed -i '/memory_limit/cmemory_limit=512M' /etc/php/5.6/cli/php.ini &&\
     sed -i '/upload_max_filesize/cupload_max_filesize=512M' /etc/php/5.6/cli/php.ini &&\
     sed -i '/post_max_size/cpost_max_size=512M' /etc/php/5.6/cli/php.ini &&\
-    mkdir -p /app/public && \
+    mkdir -p /app/public /run/php && \
     echo "<?php phpinfo();" >/app/public/index.php && \
     chown www-data:www-data -R /app 
     

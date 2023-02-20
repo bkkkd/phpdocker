@@ -41,7 +41,7 @@ RUN echo "start install php"&& \
     echo "extension=pdo_sqlsrv.so" >/etc/php/8.1/mods-available/pdo_sqlsrv.ini && \
     /usr/bin/ln -sf /etc/php/8.1/mods-available/pdo_sqlsrv.ini /etc/php/8.1/fpm/conf.d/20-pdo_sqlsrv.ini && \
     /usr/bin/ln -sf /etc/php/8.1/mods-available/pdo_sqlsrv.ini /etc/php/8.1/cli/conf.d/20-pdo_sqlsrv.ini && \
-    mkdir -p /app/public && \
+    mkdir -p /app/public /run/php && \
     echo "<?php phpinfo();" >/app/public/index.php && \
     chown www-data:www-data -R /app 
     
