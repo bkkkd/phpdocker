@@ -6,7 +6,7 @@ RUN add-apt-repository -y ppa:ondrej/php &&\
         php7.4-common php7.4-curl php7.4-fpm php7.4-gd php7.4-mbstring \
         php7.4-mysql  php7.4-sqlite3 php7.4-zip php7.4-xml php7.4-opcache \
         php7.4-dev php7.4-imagick php7.4-swoole php7.4-redis php7.4-memcache \
-        php7.4-memcached memcached nginx&& \
+        php7.4-memcached memcached nginx && \
     /usr/bin/ln -sf /usr/sbin/php-fpm7.4 /usr/sbin/php-fpm  && \
     php -r "copy('https://install.phpcomposer.com/installer', 'composer-setup.php');" && \
     php composer-setup.php && \
@@ -17,10 +17,10 @@ RUN add-apt-repository -y ppa:ondrej/php &&\
     apt-get update && \
     ACCEPT_EULA=Y apt-get install -y msodbcsql17 mssql-tools && \
     echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc && \
-    export PATH="$PATH:/opt/mssql-tools/bin" && \
+    export PATH="$PATH:/opt/mssql-tools/bin" && \ 
     apt-get install --allow-downgrades -y unixodbc-dev=2.3.7   unixodbc=2.3.7 odbcinst1debian2=2.3.7 odbcinst=2.3.7&& \
-    pecl install sqlsrv && \
-    pecl install pdo_sqlsrv && \
+    pecl install sqlsrv-5.10.1 && \
+    pecl install pdo_sqlsrv-5.10.1 && \
     echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc && \
     apt-get -y full-upgrade && apt-get clean && rm -rf /var/lib/apt/lists/* &&\
     sed -i '/server_tokens off;/aclient_max_body_size 500m;\n' /etc/nginx/nginx.conf && \
