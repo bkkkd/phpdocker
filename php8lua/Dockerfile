@@ -7,7 +7,6 @@ RUN echo "start install lua5.1"&& \
     echo "extension=luasandbox.so" > /etc/php/8.1/mods-available/luasandbox.ini  && \
     /usr/bin/ln -sf /etc/php/8.1/mods-available/luasandbox.ini /etc/php/8.1/cli/conf.d/25-luasandbox.ini && \
     /usr/bin/ln -sf /etc/php/8.1/mods-available/luasandbox.ini /etc/php/8.1/fpm/conf.d/25-luasandbox.ini &&\
-
     apt-get -y full-upgrade &&\
     apt-get clean
     

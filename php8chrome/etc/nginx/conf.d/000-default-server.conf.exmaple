@@ -1,0 +1,39 @@
+
+access_log  /docker-runner/logs/nginx-access.log  main;
+upstream php-fpm {
+    server 127.0.0.1:7000;
+}
+client_max_body_size 1000m;
+server {
+    listen       8000 default_server;
+    listen       [::]:8000 default_server;
+    server_name  _;
+    root         /app/public;
+
+    # Load configuration files for the default server block.
+    index index.php index.html index.htm;
+
+    location ~ \.(php|phar)(/.*)?$ {
+        fastcgi_split_path_info ^(.+\.(?:php|phar))(/.*)$;
+
+        #fastcgi_intercept_errors on;
+        fastcgi_index  index.php;
+        include        fastcgi_params;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        fastcgi_param  PATH_INFO $fastcgi_path_info;
+        fastcgi_pass   php-fpm;
+    }
+    location / {
+        if (!-e $request_filename){
+            rewrite  ^(.*)$  /index.php?s=$1  last;   break;
+        }
+    }
+
+    error_page 404 /404.html;
+    location = /40x.html {
+    }
+
+    error_page 500 502 503 504 /50x.html;
+    location = /50x.html {
+    }
+}
