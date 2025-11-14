@@ -8,10 +8,8 @@ RUN echo "start install php"&& \
         php8.4-memcache php8.4-memcached php8.4-ssh2 nginx memcached && \
     /usr/bin/ln -sf /usr/sbin/php-fpm8.4 /usr/sbin/php-fpm  && \
     echo "start install composer"&& \
-    php -r "copy('https://install.phpcomposer.com/installer', 'composer-setup.php');" && \
-    php composer-setup.php && \
-    php -r "unlink('composer-setup.php');" && \
-    mv composer.phar /usr/local/bin/composer && \
+    curl https://getcomposer.org/download/latest-stable/composer.phar -o /usr/local/bin/composer && \
+    chmod +x  /usr/local/bin/composer && \
     echo "start install sqlsrv"&& \
     curl -sSL -O https://packages.microsoft.com/config/ubuntu/$(grep VERSION_ID /etc/os-release | cut -d '"' -f 2)/packages-microsoft-prod.deb &&\
     dpkg -i packages-microsoft-prod.deb &&\
