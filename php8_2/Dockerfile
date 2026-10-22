@@ -19,13 +19,13 @@ RUN echo "start install tools" && \
     curl -sSL https://getcomposer.org/download/latest-stable/composer.phar -o /usr/local/bin/composer && \
     chmod +x /usr/local/bin/composer && \
     echo "start install sqlsrv"&& \
-    curl -sSL -O https://packages.microsoft.com/config/ubuntu/$(grep VERSION_ID /etc/os-release | cut -d '"' -f 2)/packages-microsoft-prod.deb &&\
-    dpkg -i packages-microsoft-prod.deb &&\
-    rm packages-microsoft-prod.deb && \
-    apt-get update && \
-    ACCEPT_EULA=Y apt-get install -y msodbcsql18 mssql-tools18 unixodbc-dev && \
-    echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bashrc && \
-    export PATH="$PATH:/opt/mssql-tools18/bin" && \
+    cd /tmp && \
+    curl -sSL -O https://packages.microsoft.com/ubuntu/22.04/prod/pool/main/m/msodbcsql17/msodbcsql17_17.10.1.1-1_amd64.deb && \
+    curl -sSL -O https://packages.microsoft.com/ubuntu/22.04/prod/pool/main/m/mssql-tools/mssql-tools_17.10.1.1-1_amd64.deb && \
+    ACCEPT_EULA=Y apt-get install -y ./msodbcsql17_17.10.1.1-1_amd64.deb ./mssql-tools_17.10.1.1-1_amd64.deb unixodbc-dev && \
+    rm -f msodbcsql17_*.deb mssql-tools_*.deb && \
+    echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc && \
+    export PATH="$PATH:/opt/mssql-tools/bin" && \
     cd /tmp && \
     curl -sSL -o sqlsrv.tgz https://pecl.php.net/get/sqlsrv-5.12.0.tgz && \
     mkdir -p sqlsrv-src && tar -xzf sqlsrv.tgz -C sqlsrv-src --strip-components=1 && \
@@ -62,7 +62,7 @@ RUN echo "start install tools" && \
     echo "check pdo_sqlsrv" && \
     /usr/bin/php8.2 -m | grep -i pdo_sqlsrv && \
     echo "check odbc driver" && \
-    odbcinst -q -d | grep -i 18
+    odbcinst -q -d | grep -i 17
 
 ADD supervisord-phpfpm.conf /etc/supervisor/conf.d/supervisord-phpfpm.conf
 ADD nginx-default /etc/nginx/sites-available/default
