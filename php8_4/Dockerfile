@@ -2,6 +2,7 @@ FROM registry.cn-shenzhen.aliyuncs.com/alpicool/docker-base:noble
 
 RUN echo "start install php"&& \
     add-apt-repository -y ppa:ondrej/php &&\
+    apt-get update &&\
     apt-get -y install php8.4-bcmath php8.4-bz2 php8.4-cli php8.4-common php8.4-curl \
         php8.4-fpm php8.4-gd php8.4-mbstring php8.4-mysql  php8.4-sqlite3 php8.4-zip \
         php8.4-xml php8.4-opcache php8.4-dev php8.4-imagick php8.4-swoole php8.4-redis \
