@@ -12,7 +12,7 @@ RUN echo "start install build deps" && \
         libxml2-dev libsqlite3-dev libcurl4-openssl-dev libonig-dev \
         libpng-dev libjpeg-turbo8-dev libfreetype6-dev libzip-dev libbz2-dev \
         libssl-dev libreadline-dev libsodium-dev libxslt1-dev gettext \
-        libmagickwand-dev libmemcached-dev zlib1g-dev libssh2-1-dev \
+        libffi-dev libmagickwand-dev libmemcached-dev zlib1g-dev libssh2-1-dev \
         ca-certificates curl gnupg unzip && \
     echo "start install sqlsrv headers" && \
     curl -sSL https://packages.microsoft.com/config/ubuntu/20.04/prod.list | tee /etc/apt/sources.list.d/microsoft-prod.list && \
@@ -33,11 +33,11 @@ RUN echo "start install build deps" && \
         --enable-mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd \
         --with-sqlite3 --with-pdo-sqlite \
         --with-curl --with-openssl --with-zlib --with-bz2 \
-        --with-sodium --with-xsl --with-gettext --with-readline \
+        --with-sodium --with-xsl --with-gettext --with-readline --with-ffi \
         --enable-bcmath --enable-exif \
         --enable-sockets --enable-pcntl --enable-ftp \
         --enable-shmop --enable-sysvmsg --enable-sysvsem --enable-sysvshm \
-        --enable-calendar --enable-ffi \
+        --enable-calendar \
         --enable-gd --with-freetype --with-jpeg \
         --enable-mbstring \
         --with-zip \
@@ -114,7 +114,7 @@ RUN echo "start install runtime deps" && \
         libxml2 libsqlite3-0 libcurl4 libonig5 libzip5 \
         libpng16-16 libjpeg-turbo8 libfreetype6 \
         libbz2-1.0 libssl1.1 libreadline8 libcrypt1 \
-        libsodium23 libxslt1.1 gettext-base \
+        libsodium23 libxslt1.1 gettext-base libffi7 \
         libmagickwand-6.q16-6 libmemcached11 libssh2-1 zlib1g && \
     echo "start install sqlsrv driver" && \
     curl -sSL https://packages.microsoft.com/config/ubuntu/20.04/prod.list | tee /etc/apt/sources.list.d/microsoft-prod.list && \
