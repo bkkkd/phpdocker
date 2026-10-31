@@ -110,7 +110,7 @@ RUN echo "start install runtime deps" && \
     echo 'Acquire::Retries "5";' > /etc/apt/apt.conf.d/80-retries && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
-        nginx memcached supervisor cron procps locales ca-certificates curl gnupg \
+        nginx memcached supervisor cron procps locales ca-certificates curl gnupg unzip vim \
         libxml2 libsqlite3-0 libcurl4 libonig5 libzip5 \
         libpng16-16 libjpeg-turbo8 libfreetype6 \
         libbz2-1.0 libssl1.1 libreadline8 libcrypt1 \
@@ -128,10 +128,24 @@ COPY --from=builder /usr/local /usr/local
 
 RUN echo "start config runtime" && \
     locale-gen en_US.UTF-8 zh_CN.UTF-8 && \
-    mkdir -p /run/php /app/public && \
+    mkdir -p /run/php /app/public /var/lib/php/sessions && \
     echo "<?php phpinfo();" > /app/public/index.php && \
-    chown www-data:www-data -R /app /run/php && \
-    /usr/bin/ln -sf /usr/local/sbin/php-fpm /usr/sbin/php-fpm && \
+    chown www-data:www-data -R /app /run/php /var/lib/php/sessions && \
+    echo "start debian php7.4 layout compatibility" && \
+    rm -rf /etc/php/7.4 /usr/lib/php/20190902 && \
+    mkdir -p /etc/php/7.4/fpm /etc/php/7.4/cli /usr/lib/php && \
+    ln -s /usr/local/etc/php/conf.d /etc/php/7.4/mods-available && \
+    ln -s /usr/local/etc/php/conf.d /etc/php/7.4/fpm/conf.d && \
+    ln -s /usr/local/etc/php/conf.d /etc/php/7.4/cli/conf.d && \
+    ln -s /usr/local/etc/php/php.ini /etc/php/7.4/fpm/php.ini && \
+    ln -s /usr/local/etc/php/php.ini /etc/php/7.4/cli/php.ini && \
+    ln -s /usr/local/etc/php-fpm.conf /etc/php/7.4/fpm/php-fpm.conf && \
+    ln -s /usr/local/etc/php-fpm.d /etc/php/7.4/fpm/pool.d && \
+    ln -s /usr/local/lib/php/extensions/no-debug-non-zts-20190902 /usr/lib/php/20190902 && \
+    ln -sf /usr/local/sbin/php-fpm /usr/sbin/php-fpm && \
+    ln -sf /usr/local/sbin/php-fpm /usr/sbin/php-fpm7.4 && \
+    ln -sf /usr/local/bin/php /usr/bin/php7.4 && \
+    ln -sf /usr/local/bin/php /usr/bin/php && \
     sed -i '/keepalive_timeout/ckeepalive_timeout 600;' /etc/nginx/nginx.conf && \
     for ext in pdo_sqlsrv redis imagick memcache memcached ssh2 \
                swoole igbinary sodium xsl gettext ffi readline; do \
